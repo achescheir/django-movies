@@ -14,3 +14,7 @@ def movie_detail_view(request, id):
 def rater_detail(request, id):
     rater = get_object_or_404(Rater, pk=id)
     return render(request, 'raters/detail.html', {'rater': rater})
+
+def top_movies(request, num):
+    movie_list = Movie.get_top_movies(num)
+    return render(request, 'movies/top_movies.html', {'movie_list': movie_list})

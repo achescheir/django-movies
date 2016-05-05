@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg, Count
 import csv
 from datetime import datetime
 
@@ -14,10 +15,17 @@ class Movie(models.Model):
         return self.title
 
     def get_average(self):
-        avg = Rating.objects.filter(movie = self.id).aggregate(models.Avg('rating_value'))
+        avg = Rating.objects.filter(movie = self.id).aggregate(Avg('rating_value'))
         return avg['rating_value__avg']
 
+    def get_ratings(self):
+        return Rating.objects.filter(movie=self.id)
 
+    @staticmethod
+    def get_top_movies(number):
+        sig_sample = Movie.objects.annotate(count = Count('rating')).filter(count__gt = 10)
+        sorted_movies = sig_sample.annotate(avg_rating = Avg('rating__rating_value')).order_by('-avg_rating')
+        return sorted_movies[:int(number)]
 
     @staticmethod
     def read(data_file_name):
@@ -38,7 +46,6 @@ class Rating(models.Model):
 
     def __str__(self):
         return "Movie:{}-User:{}-Rating:{}".format(self.movie, self.rater, self.rating_value)
-
 
     @staticmethod
     def read(data_file_name):
