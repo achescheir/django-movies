@@ -8,7 +8,7 @@
   <ul>
     {% for each_rating in rater.get_ratings %}
     <li>
-      <a href = "{% url 'ratings_app:movie_detail_url' each_rating.movie_id.movie_id %}">{{each_rating.movie_id.title}}</a>
+      <a href = "{% url 'ratings_app:movie_detail_url' each_rating.movie.id %}">{{each_rating.movie.title}}</a>
     </li>
     {% endfor %}
   </ul>

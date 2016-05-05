@@ -5,7 +5,7 @@ from datetime import datetime
 
 # Create your models here.
 class Movie(models.Model):
-    movie_id = models.PositiveIntegerField(primary_key=True)
+    id = models.PositiveIntegerField(primary_key=True)
     title = models.CharField(max_length=320)
     genres = models.CharField(max_length=320)
 
@@ -14,7 +14,7 @@ class Movie(models.Model):
         return self.title
 
     def get_average(self):
-        avg = Rating.objects.filter(movie_id = self.movie_id).aggregate(models.Avg('rating_value'))
+        avg = Rating.objects.filter(movie = self.id).aggregate(models.Avg('rating_value'))
         return avg['rating_value__avg']
 
 
@@ -24,20 +24,20 @@ class Movie(models.Model):
         with open(data_file_name,'r') as data_file:
             reader = csv.DictReader(data_file)
             for each_movie in reader:
-                new_movie = Movie(movie_id=each_movie['movieId'], title=each_movie['title'], genres=each_movie['genres'])
+                new_movie = Movie(id=each_movie['movieId'], title=each_movie['title'], genres=each_movie['genres'])
                 new_movie.save()
 
 
 
 class Rating(models.Model):
-    movie_id = models.ForeignKey("Movie")
+    movie = models.ForeignKey("Movie")
     rating_value = models.FloatField()
-    rater_id = models.ForeignKey("Rater")
+    rater = models.ForeignKey("Rater")
     time = models.DateTimeField()
 
 
     def __str__(self):
-        return "Movie:{}-User:{}-Rating:{}".format(self.movie_id, self.rater_id, self.rating_value)
+        return "Movie:{}-User:{}-Rating:{}".format(self.movie, self.rater, self.rating_value)
 
 
     @staticmethod
@@ -45,21 +45,21 @@ class Rating(models.Model):
         with open(data_file_name,'r') as data_file:
             reader = csv.DictReader(data_file)
             for each_rating in reader:
-                new_rater = Rater(rater_id=each_rating['userId'])
+                new_rater = Rater(id=each_rating['userId'])
                 new_rater.save()
-                mid = Movie.objects.get(movie_id=each_rating['movieId'])
+                mid = Movie.objects.get(id=each_rating['movieId'])
                 rid = new_rater#each_rating['userId']
                 rv = each_rating['rating']
                 ts = datetime.fromtimestamp(float(each_rating['timestamp']))
-                new_rating = Rating(movie_id=mid, rater_id=rid, rating_value=rv,time=ts)
+                new_rating = Rating(movie=mid, rater=rid, rating_value=rv,time=ts)
                 new_rating.save()
 
 class Rater(models.Model):
-    rater_id = models.PositiveIntegerField(primary_key=True)
+    id = models.PositiveIntegerField(primary_key=True)
 
     def __str__(self):
-        return str(self.rater_id)
+        return str(self.id)
 
 
     def get_ratings(self):
-        return Rating.objects.filter(rater_id=self.rater_id)
+        return Rating.objects.filter(rater=self.id)
