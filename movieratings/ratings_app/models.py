@@ -13,6 +13,11 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+    def get_average(self):
+        avg = Rating.objects.filter(movie_id = self.movie_id).aggregate(models.Avg('rating_value'))
+        return avg['rating_value__avg']
+
+
 
     @staticmethod
     def read(data_file_name):
@@ -21,6 +26,8 @@ class Movie(models.Model):
             for each_movie in reader:
                 new_movie = Movie(movie_id=each_movie['movieId'], title=each_movie['title'], genres=each_movie['genres'])
                 new_movie.save()
+
+
 
 class Rating(models.Model):
     movie_id = models.ForeignKey("Movie")
