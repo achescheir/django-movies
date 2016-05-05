@@ -58,4 +58,4 @@ class Rater(models.Model):
     rater_id = models.PositiveIntegerField(primary_key=True)
 
     def __str__(self):
-        return rater_id
+        return str(self.rater_id)
