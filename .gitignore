@@ -60,6 +60,12 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+#DATA
+ml-latest-small/
+
 .DS_Store
 .envrc
 .direnv
+
+secrets.py
