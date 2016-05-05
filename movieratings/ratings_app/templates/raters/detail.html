@@ -1,1 +1,16 @@
-{{rater}}
+<body>
+  <h3>
+    {{rater}}
+  </h3>
+  <h5>
+    Rated movies:
+  </h5>
+  <ul>
+    {% for each_rating in rater.get_ratings %}
+    <li>
+      <a href = "{% url 'ratings_app:movie_detail_url' each_rating.movie_id.movie_id %}">{{each_rating.movie_id.title}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+
+</body>

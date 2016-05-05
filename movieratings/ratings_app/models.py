@@ -59,3 +59,7 @@ class Rater(models.Model):
 
     def __str__(self):
         return str(self.rater_id)
+
+
+    def get_ratings(self):
+        return Rating.objects.filter(rater_id=self.rater_id)
