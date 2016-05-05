@@ -9,6 +9,11 @@ class Movie(models.Model):
     title = models.CharField(max_length=320)
     genres = models.CharField(max_length=320)
 
+
+    def __str__(self):
+        return self.title
+
+
     @staticmethod
     def read(data_file_name):
         with open(data_file_name,'r') as data_file:
@@ -22,6 +27,11 @@ class Rating(models.Model):
     rating_value = models.FloatField()
     rater_id = models.ForeignKey("Rater")
     time = models.DateTimeField()
+
+
+    def __str__(self):
+        return "Movie:{}-User:{}-Rating:{}".format(self.movie_id, self.rater_id, self.rating_value)
+
 
     @staticmethod
     def read(data_file_name):
@@ -39,3 +49,6 @@ class Rating(models.Model):
 
 class Rater(models.Model):
     rater_id = models.PositiveIntegerField(primary_key=True)
+
+    def __str__(self):
+        return rater_id
