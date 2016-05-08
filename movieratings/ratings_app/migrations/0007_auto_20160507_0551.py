@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 # from django.conf import settings
 from datetime import datetime
 import csv
@@ -30,7 +30,7 @@ def func(apps, schema_editor):
         Movie = apps.get_model("ratings_app", "Movie")
         Rating = apps.get_model("ratings_app", "Rating")
         Rater = apps.get_model("ratings_app", "Rater")
-        User = apps.get_model("auth", "User")
+        # User = apps.get_model("auth", "User")
         with open('../ml-100k/u.item','r',encoding='latin-1') as data_file:
             fields = ["movieId", "title", "release_date",
                       "video_release_date", "imdb_url"]
@@ -81,5 +81,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(func)
     ]

@@ -2,7 +2,6 @@ from django.shortcuts import HttpResponse, render, get_object_or_404
 from .models import Movie, Rating, Rater
 
 
-
 # Create your views here.
 def index(request):
     return HttpResponse("This is the index of ratings_app.")
@@ -18,3 +17,6 @@ def rater_detail(request, id):
 def top_movies(request, num):
     movie_list = Movie.get_top_movies(num)
     return render(request, 'movies/top_movies.html', {'movie_list': movie_list})
+
+def profile(request):
+    return render(request, 'accounts/profile.html')

@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^ratings_app/', include('ratings_app.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/', include('ratings_app.urls') )
 ]
