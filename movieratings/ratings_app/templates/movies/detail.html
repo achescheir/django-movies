@@ -2,6 +2,8 @@
   <h3>
     {{movie}}
   </h3>
+
+  <a href="{% url 'ratings_app:rate_movie' movie.id%}">Rate this movie</a>
   <h5>
     Average Rating: {{movie.get_average}}
   </h5>
@@ -9,7 +11,7 @@
   <ul>
     {% for each_rating in movie.get_ratings %}
     <li>
-      {{each_rating.rating_value}} : 
+      {{each_rating.rating_value}} :
       <a href = "{% url 'ratings_app:rater_detail' each_rating.rater.id %}">{{each_rating.rater.id}}</a>
 
     </li>
