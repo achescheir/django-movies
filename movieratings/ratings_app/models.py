@@ -36,7 +36,8 @@ class Rating(models.Model):
     movie = models.ForeignKey("Movie")
     rating_value = models.PositiveIntegerField()
     rater = models.ForeignKey("Rater")
-    time = models.DateTimeField()
+    time = models.DateTimeField(auto_now=True)
+    review = models.TextField(blank=True)
 
 
     def __str__(self):
