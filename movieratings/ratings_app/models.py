@@ -44,7 +44,7 @@ class Rating(models.Model):
 
 
 class Rater(models.Model):
-    # user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     age = models.PositiveIntegerField()
     sex = models.CharField(max_length=1)
     occupation = models.CharField(max_length=16)

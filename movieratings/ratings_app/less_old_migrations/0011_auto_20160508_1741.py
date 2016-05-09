@@ -63,9 +63,9 @@ def func(apps, schema_editor):
                 # print("="*50)
                 # print(settings.AUTH_USER_MODEL)
                 # print("<>"*25)
-                # new_user = User.objects.create_user(username=occupation+rater_id, password='moviepassword')
+                new_user = User.objects.create_user(username=occupation+rater_id, password='moviepassword')
                 try:
-                    new_rater = Rater(id=rater_id, age=age, sex=sex, occupation=occupation, zip_code=zip_code)#, user=new_user)
+                    new_rater = Rater(id=rater_id, age=age, sex=sex, occupation=occupation, zip_code=zip_code, user=new_user)
                     new_rater.save()
                 except Exception as e:
                     print(each_user)
@@ -100,5 +100,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(func)
     ]
