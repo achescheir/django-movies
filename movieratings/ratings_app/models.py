@@ -31,6 +31,13 @@ class Movie(models.Model):
         sorted_movies = sig_sample.annotate(avg_rating = Avg('rating__rating_value')).order_by('-avg_rating')
         return sorted_movies[:int(number)]
 
+    @staticmethod
+    def get_top_genre_movies(genre, number):
+        sig_sample = Movie.objects.annotate(count = Count('rating')).filter(count__gt = 10)
+        genre_movies = sig_sample.filter(genres__contains=genre)
+        sorted_movies = genre_movies.annotate(avg_rating = Avg('rating__rating_value')).order_by('-avg_rating')
+        return sorted_movies[:int(number)]
+
 
 class Rating(models.Model):
     movie = models.ForeignKey("Movie")

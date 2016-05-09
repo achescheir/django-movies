@@ -45,16 +45,31 @@ def add_rating(request, id):
 def profile(request):
     return render(request, 'accounts/profile.html')
 
-def update(request, id):
-    movie = Movie.objects.get(id=id)
-    rater = request.user.rater
-    rating_value = request.POST['rating']
-    if len(Rating.objects.filter(movie=movie).filter(rater=rater)) == 0:
-        new_rating = Rating(movie=movie, rater=rater,rating_value=rating_value,time=datetime.now())
-        new_rating.save()
-    else:
-        old_rating = Rating.objects.filter(movie=movie).get(rater=rater)
-        old_rating.rating_value = rating_value
-        old_rating.time = datetime.now()
-        old_rating.save()
-    return HttpResponseRedirect(reverse('ratings_app:rater_detail', args=(rater.id,)))
+def parse_genre(genre):
+    genre = genre.lower()
+    genre_dict =  {'unknown'     : 'unknown',
+                    'action'     : "Action",
+                    'adventure'  : "Adventure",
+                    'animation'  : "Animation",
+                    'childrens'  : "Children's",
+                    'comedy'     : "Comedy",
+                    'crime'      : "Crime",
+                    'documentary': "Documentary",
+                    'drama'      : "Drama",
+                    "fantasy"    : "Fantasy",
+                    "filmnoir"   : "Film-Noir",
+                    "horror"     : "Horror",
+                    "musical"    : "Musical",
+                    "mystery"    : "Mystery",
+                    "romance"    : "Romance",
+                    "scifi"      : "Sci-Fi",
+                    "thriller"   : "Thriller",
+                    "war"        : "War",
+                    "western"    : "Western"
+                    }
+    return genre_dict[genre]
+
+def top_genre(request, genre):
+    genre = parse_genre(genre)
+    movie_list = Movie.get_top_genre_movies(genre, 25)
+    return render(request, 'movies/top_movies.html', {'movie_list': movie_list})
