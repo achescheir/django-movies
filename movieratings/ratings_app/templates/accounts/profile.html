@@ -1,4 +1,4 @@
-<h5>This is a profile page.</h5>
+<h5>{{request.user.username}}. This is your profile page.</h5>
 
 <form class action="{% url 'ratings_app:logout'%}" method='post'>
   {% csrf_token %}

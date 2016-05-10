@@ -1,0 +1,10 @@
+<h3>
+  Top Movies
+</h3>
+<ol>
+  {% for each_movie in movie_list %}
+  <li>
+    <a href = "{% url 'ratings_app:movie_detail_url' each_movie.id %}">{{each_movie.title}}</a>
+  </li>
+  {% endfor %}
+</ol>

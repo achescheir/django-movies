@@ -3,7 +3,7 @@ from datetime import datetime
 from .models import Movie, Rating, Rater
 from django.core.urlresolvers import reverse
 from .forms import RatingForm
-
+from django.views import generic
 
 # Create your views here.
 def index(request):
@@ -20,6 +20,19 @@ def rater_detail(request, id):
 def top_movies(request, num):
     movie_list = Movie.get_top_movies(num)
     return render(request, 'movies/top_movies.html', {'movie_list': movie_list})
+
+class Top_Movies(generic.ListView):
+    model = Movie
+
+    def __init__(self, number_to_get=25):
+        super().__init__()
+        self.number_to_get  = number_to_get
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["movie_list"] = Movie.get_top_movies(self.number_to_get)
+        return context
+
 
 def add_rating(request, id):
     movie = get_object_or_404(Movie, pk=id)

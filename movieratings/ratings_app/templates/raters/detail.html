@@ -1,20 +1,32 @@
 <body>
-  <h3>
-    {{rater}}
-  </h3>
-  <h5>
-    Rated movies:
-  </h5>
-  <ul>
-    {% for each_rating in rater.get_ratings %}
-      <li>
-        {%if user.rater == rater%}
-          {{each_rating.rating_value}} :<a href = "{% url 'ratings_app:rate_movie' each_rating.movie.id %}">{{each_rating.movie.title}}</a>
-        {%else%}
+  {%if user.rater == rater%}
+    <h3>
+      Welcome back {{rater}}.
+    </h3>
+    <h5>
+      Rated movies:
+    </h5>
+    <ul>
+      {% for each_rating in rater.get_ratings %}
+        <li>
+            {{each_rating.rating_value}} :<a href = "{% url 'ratings_app:rate_movie' each_rating.movie.id %}">{{each_rating.movie.title}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {%else%}
+    <h3>
+      {{rater}}'s ratings.
+    </h3>
+    <h5>{{rater.age}}</h5>
+    <h5>{{rater.sex}}</h5>
+    <h5>{{rater.occupation}}</h5>
+    <h5>{{rater.zip_code}}</h5>
+    <ul>
+      {% for each_rating in rater.get_ratings %}
+        <li>
           {{each_rating.rating_value}} :<a href = "{% url 'ratings_app:movie_detail_url' each_rating.movie.id %}">{{each_rating.movie.title}}</a>
-        {%endif%}
-      </li>
-    {% endfor %}
-  </ul>
-
+        </li>
+      {% endfor %}
+    </ul>
+  {%endif%}
 </body>
